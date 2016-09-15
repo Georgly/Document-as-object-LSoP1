@@ -1,0 +1,47 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplication1"
+        mc:Ignorable="d"
+        Title="OODocument" MinHeight="352" Height="325" MinWidth="677" Width="677" Background="LightGray">
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="5" TextAlignment="Center" Background="LightGoldenrodYellow" Padding="3" FontSize="16" TextWrapping="Wrap">
+                    Для форматирования выделяйте фрагменты текста тэгами, указанными ниже. 
+                    <Run TextDecorations="Underline" Cursor="Hand" MouseEnter="Run_MousEnter">ПРИМЕР!</Run>
+                </TextBlock>
+                <Popup Name="pLink" StaysOpen="False" Placement="Mouse" MaxWidth="245"
+                    PopupAnimation="Scroll" AllowsTransparency="True">
+                    <Border BorderBrush="LightBlue" BorderThickness="2" Background="White">
+                        <TextBlock Margin="10" TextWrapping="Wrap" Height="75" Width="223">
+                        /с/Начало секции /з/Заголовок/!з/ Основной текст /к/Колонка 1/!к/ /к/Колонка 2/!к/ список:/л/ /п/1пункт/!п/ /п/2пункт/!п/ /!л/ Конец секции/!c/
+                        </TextBlock>
+                    </Border>
+                </Popup>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="5" Background="LightGoldenrodYellow" BorderThickness="2" BorderBrush="#FF7E7ED6" Content="/з/.../!з/ - Заголовок"></Label>
+                <Label Margin="5" Background="LightGoldenrodYellow" BorderThickness="2" BorderBrush="#FF7E7ED6" Content="/к/.../!к/ - Колонка"></Label>
+                <Label Margin="5" Background="LightGoldenrodYellow" BorderThickness="2" BorderBrush="#FF7E7ED6" Content="/с/.../!с/ - Секция"></Label>
+                <Label Margin="5" Background="LightGoldenrodYellow" BorderThickness="2" BorderBrush="#FF7E7ED6" Content="/л/.../!л/ - Список"></Label>
+                <Label Margin="5" Background="LightGoldenrodYellow" BorderThickness="2" BorderBrush="#FF7E7ED6" Content="/п/.../!п/ - Пункт"></Label>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label Margin="5" Background="LightGoldenrodYellow" BorderThickness="2" BorderBrush="AliceBlue" Content="Введите ширину текста в символах" FontSize="12.5"></Label>
+            <TextBox Name="textWidth" Margin="5" Width="50" Text="100" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+            <Button Margin="5" BorderThickness="2" BorderBrush="#FF786F6F"  Content="Форматировать" Background="#FFC5BEBE" Click="Button_Click"></Button>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <TextBox Name="docText" TextWrapping="Wrap" FontSize="16" Margin="5" BorderThickness="2" BorderBrush="LavenderBlush"  Grid.Row="1" MinHeight="176" Background="White">/с/</TextBox>
+        </Grid>
+    </Grid>
+</Window>

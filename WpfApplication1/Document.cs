@@ -1,0 +1,235 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.IO;
+
+namespace WpfApplication1
+{
+    class Document
+    {
+        List<Text> _formatDocument;
+        string _text;
+        List<Tegs> _tegs;
+
+        public Document(string text)
+        {
+            _formatDocument = new List<Text>();
+            _text = text;
+            Tegs = new List<Tegs>();
+        }
+
+        public void Format(int width)
+        {
+            StreamWriter file = null;
+            try
+            {
+                if (CheckEnter())
+                {
+                    file = new StreamWriter("Text.txt", false);
+                    string result = Show(width);
+                    file.WriteLine(result);
+                    file.Close();
+                }
+                else
+	            {
+                    MessageBox.Show("Пропущен тэг! Проверьте правильность ввода", "Проверка синтаксиса", MessageBoxButton.OK);
+                }
+            }
+            catch (IOException)
+            {
+                Error.EnterError();
+            }
+            finally
+            {
+                if (file != null)
+                {
+                    file.Close();
+                }
+            }
+        }
+
+        void Parse()
+        {
+            SomeNeedOverWrite.SortList(ref _tegs);
+            if (Tegs.Count == 0)
+            {
+                Text text = new Text();
+                text.Content = _text;
+                _formatDocument.Add(text);
+            }
+            else
+            {
+                for (int i = 0; i < Tegs.Count; i++)
+                {
+                    switch (Tegs[i].TegType)
+                    {
+                        case "/с/":
+                            {
+                                Section section = new Section();
+                                int j = EndTeg(i, "с/");
+                                section.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 3, Tegs[j].Position);//правильно
+                                section.Tegs = SomeNeedOverWrite.CopyListToList(Tegs, i + 1, j);
+                                _formatDocument.Add(section);
+                                i = j;
+                                break;
+                            }
+                        case "/к/":
+                            {
+                                Columns column = new Columns();
+                                int j = EndTeg(i, "к/");
+                                column.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 3, Tegs[j].Position);
+                                column.Tegs = SomeNeedOverWrite.CopyListToList(Tegs, i + 1, j);
+                                _formatDocument.Add(column);
+                                i = j;
+                                break;
+                            }
+                        case "/з/":
+                            {
+                                Title title = new Title();
+                                int j = EndTeg(i, "з/");
+                                title.TitleTx = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 3, Tegs[j].Position);
+                                _formatDocument.Add(title);
+                                i = j;
+                                break;
+                            }
+                        case "/л/":
+                            {
+                                MarkerList mrList = new MarkerList();
+                                int j = EndTeg(i, "л/");
+                                mrList.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 3, Tegs[j].Position);
+                                mrList.Tegs = SomeNeedOverWrite.CopyListToList(Tegs, i + 1, j);
+                                _formatDocument.Add(mrList);
+                                i = j;
+                                break;
+                            }
+                    }
+                }
+            }
+        }
+
+        string Show(int width)
+        {
+            Parse();
+            string result = "";
+            for (int i = 0; i < _formatDocument.Count; i++)
+            {
+                result += _formatDocument[i].Show(width);
+            }
+            return result;
+        }
+
+        int EndTeg(int beginPos ,string teg)
+        {
+            int countRepeat = 1;
+            int i = beginPos + 1;
+            while (countRepeat != 0)
+            {
+                if ("/" + teg == Tegs[i].TegType)
+                {
+                    countRepeat++;
+                }
+                if ("/!" + teg == Tegs[i].TegType)
+                {
+                    countRepeat--;
+                }
+                i++;
+            }
+            return i - 1;
+        }
+
+        bool CheckEnter()
+        {
+            bool check = true;
+            for (int i = 1; i <= 5; i++)
+            {
+                switch (i)
+                {
+                    case 1:
+                        {
+                            check = FindTeg("с/");
+                            break;
+                        }
+                    case 2:
+                        {
+                            check = FindTeg("з/");
+                            break;
+                        }
+                    case 3:
+                        {
+                            check = FindTeg("к/");
+                            break;
+                        }
+                    case 4:
+                        {
+                            check = FindTeg("л/");
+                            break;
+                        }
+                    case 5:
+                        {
+                            check = FindTeg("п/");
+                            break;
+                        }
+                }
+                if (!check)
+                {
+                    return false;
+                }
+            }
+            return check;
+        }
+
+        bool FindTeg(string type)
+        {
+            int left = 0;
+            int right = _text.Length;
+            int checkTegs = 0;
+            while ((left < _text.Length) && (right > 1))
+            {
+                int begin = _text.IndexOf("/" + type, left);
+                int end = _text.LastIndexOf("/!" + type, right);
+                if (begin == -1 && end == -1)
+                {
+                    left = _text.Length;
+                    right = 0;
+                }
+                else
+                {
+                    if (begin != -1)
+                    {
+                        Tegs.Add(new Tegs(begin, "/" + type));
+                        left = begin + 3;
+                        checkTegs++;
+                    }
+                    else
+                    {
+                        left++;
+                    }
+                    if (end != -1)
+                    {
+                        Tegs.Add(new Tegs(end, "/!" + type));
+                        right = end - 1;
+                        checkTegs--;
+                    }
+                    else
+                    {
+                        end--;
+                    }
+                }
+            }
+            if (checkTegs != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        List<Tegs> Tegs
+        {
+            get { return _tegs; }
+            set { _tegs = value; }
+        }
+    }
+}
