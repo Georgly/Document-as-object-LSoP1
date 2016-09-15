@@ -9,60 +9,62 @@ namespace WpfApplication1
 {
     class Text
     {
+        List<string> _formatText;
         string _content = "";
 
         public Text()
         {
             Content = "";
+            _formatText = new List<string>();
         }
 
-        public string FormatStr(string strIn, int width)
+        public virtual List<string> FormatStr(string strIn, int width)
         {
             string strOut = "";
             int i = 0;
             while (i < strIn.Length)
             {
-                string temptStr = "";
+                //string temptStr = "";
                 while (i < width)
                 {
-                    temptStr += strIn[i];
+                    strOut += strIn[i];
                     i++;
                 }
-                if (temptStr[strIn.Length - 1].ToString() == " ")
+                if (strOut[strIn.Length - 1].ToString() == " ")
                 {
-                    strOut += temptStr + "\n";
+                    _formatText.Add(strOut);
                 }
                 else
                 {
-                    int tempt = temptStr.Length - 1;
-                    while (temptStr[tempt] != ' ')
+                    int tempt = strOut.Length - 1;
+                    while (strOut[tempt] != ' ')
                     {
                         tempt--;
                     }
-                    for (int j = 0; j < tempt; j++)
-                    {
-                        strOut += temptStr[j];
-                    }
-                    strOut += "\n";
+                    _formatText.Add(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt));
+                    //for (int j = 0; j < tempt; j++)
+                    //{
+                    //    strOut += temptStr[j];
+                    //}
                     i = tempt;
                 }
                 i++;
             }
-            return strOut;
+            return _formatText;
         }
 
-        public virtual string Show(int width)
+        public virtual List<string> Show(int width)
         {
-            string formatStr = "";
+            //string formatStr = "";
             if (Content.Length <= width)
             {
-                formatStr = Content;
+                _formatText.Add(Content);
             }
             else
             {
-                FormatStr(Content, width);
+                return FormatStr(Content, width);
             }
-            return formatStr;
+            return _formatText;
         }
 
         public string Content

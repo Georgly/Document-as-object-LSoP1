@@ -85,16 +85,22 @@ namespace WpfApplication1
             
         }
 
-        public override string Show(int width)
+        public override List<string> Show(int width)
         {
             Parse();
-            string formatStr = "";
+            List<string> formatText = new List<string>();
+            List<string> textFragment;
+            //string formatStr = "";
             for (int i = 0; i < SectionContent.Count; i++)
             {
-                formatStr += SectionContent[i].Show(width);
+                textFragment = SectionContent[i].Show(width - 1);
+                for (int j = 0; j < textFragment.Count; j++)
+                {
+                    formatText.Add(" " + textFragment[j]);
+                }
             }
-            formatStr += "\n\n";
-            return formatStr;
+            //formatStr += "\n\n";
+            return formatText;
         }
 
         public int EndTeg(int beginPos, string teg)

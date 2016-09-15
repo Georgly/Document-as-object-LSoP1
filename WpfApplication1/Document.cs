@@ -29,8 +29,11 @@ namespace WpfApplication1
                 if (CheckEnter())
                 {
                     file = new StreamWriter("Text.txt", false);
-                    string result = Show(width);
-                    file.WriteLine(result);
+                    List<string> result = Show(width);
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        file.WriteLine(result[i]);
+                    }
                     file.Close();
                 }
                 else
@@ -110,15 +113,20 @@ namespace WpfApplication1
             }
         }
 
-        string Show(int width)
+        List<string> Show(int width)
         {
             Parse();
-            string result = "";
+            List<string> formatText = new List<string>();
+            List<string> textFragment;
             for (int i = 0; i < _formatDocument.Count; i++)
             {
-                result += _formatDocument[i].Show(width);
+                textFragment = _formatDocument[i].Show(width);
+                for (int j = 0; j < textFragment.Count; j++)
+                {
+                    formatText.Add(textFragment[j]);
+                }
             }
-            return result;
+            return formatText;
         }
 
         int EndTeg(int beginPos ,string teg)

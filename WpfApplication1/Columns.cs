@@ -44,10 +44,10 @@ namespace WpfApplication1
             }
         }
 
-        public override string Show(int width)
-        {
-            return "0";
-        }
+        //public override string Show(int width)
+        //{
+        //    return "0";
+        //}
 
         public int EndTeg(int beginPos, string teg)
         {
