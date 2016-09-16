@@ -58,7 +58,7 @@ namespace WpfApplication1
                             {
                                 Title title = new Title();
                                 int j = EndTeg(i, "з/");
-                                title.TitleTx = SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 3, Tegs[j].Position);// TODO не +3 а +2 везде
+                                title.TitleTx = SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 3, Tegs[j].Position);
                                 SectionContent.Add(title);
                                 i = j;
                                 break;
@@ -90,16 +90,38 @@ namespace WpfApplication1
             Parse();
             List<string> formatText = new List<string>();
             List<string> textFragment;
-            //string formatStr = "";
             for (int i = 0; i < SectionContent.Count; i++)
             {
-                textFragment = SectionContent[i].Show(width - 1);
-                for (int j = 0; j < textFragment.Count; j++)
+                bool check = SectionContent[i].GetType().ToString() == "WpfApplication1.Columns";
+                if (check)
                 {
-                    formatText.Add(" " + textFragment[j]);
+                    if (i == SectionContent.Count - 1 || SectionContent[i + 1].GetType().ToString() != "WpfApplication1.Columns")
+                    {
+                        textFragment = SectionContent[i].Show(width - 6);
+                        for (int j = 0; j < textFragment.Count; j++)
+                        {
+                            formatText.Add("    " + textFragment[j]);
+                        }
+                    }
+                    else
+                    {
+                        textFragment = FormatText.Show(SectionContent[i].Show(width - 5), SectionContent[i + 1].Show(width - 5));
+                        for (int j = 0; j < textFragment.Count; j++)
+                        {
+                            formatText.Add("    " + textFragment[j]);
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    textFragment = SectionContent[i].Show(width - 1);
+                    for (int j = 0; j < textFragment.Count; j++)
+                    {
+                        formatText.Add(textFragment[j]);
+                    }
                 }
             }
-            //formatStr += "\n\n";
             return formatText;
         }
 

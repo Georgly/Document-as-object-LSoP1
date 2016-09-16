@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.IO;
-
+// -- /с//з/есампри/!з//л/самрпир/п/ртол/!п//п/мпио/!п//!л//!с/
 namespace WpfApplication1
 {
     class Document
@@ -117,13 +117,36 @@ namespace WpfApplication1
         {
             Parse();
             List<string> formatText = new List<string>();
-            List<string> textFragment;
+            List<string> textFragment = new List<string>();
             for (int i = 0; i < _formatDocument.Count; i++)
             {
-                textFragment = _formatDocument[i].Show(width);
-                for (int j = 0; j < textFragment.Count; j++)
+                bool check = _formatDocument[i].GetType().ToString() == "WpfApplication1.Columns";
+                if (check)
                 {
-                    formatText.Add(textFragment[j]);
+                    if (i == _formatDocument.Count - 1 || _formatDocument[i + 1].GetType().ToString() != "WpfApplication1.Columns")
+                    {
+                        textFragment = _formatDocument[i].Show(width - 6);
+                        for (int j = 0; j < textFragment.Count; j++)
+                        {
+                            formatText.Add("    " + textFragment[j]);
+                        }
+                    }
+                    else
+                    {
+                        textFragment = FormatText.Show(_formatDocument[i].Show(width - 5), _formatDocument[i + 1].Show(width - 5));
+                        for (int j = 0; j < textFragment.Count; j++)
+                        {
+                            formatText.Add("    " + textFragment[j]);
+                        }
+                    }
+                }
+                else
+                {
+                    textFragment = _formatDocument[i].Show(width - 1);
+                    for (int j = 0; j < textFragment.Count; j++)
+                    {
+                        formatText.Add(textFragment[j]);
+                    }
                 }
             }
             return formatText;

@@ -47,7 +47,7 @@ namespace WpfApplication1
             List<string> list = FormatText;
             for (int i = 0; i < FormatText.Count; i++)
             {
-                if (list[i].Length < width)
+                if (list[i].Length < width) // TODO сделать отступы и добавление пробелв до длины
                 {
                     list[i] = FormatText[i];
                 }
@@ -66,6 +66,7 @@ namespace WpfApplication1
             string space;
             while (i < strIn.Length)
             {
+                int count = 0;
                 //string temptStr = "";
                 if (i == 0)
                 {
@@ -75,29 +76,32 @@ namespace WpfApplication1
                 {
                     space = "    ";
                 }
-                while (i < width - space.Length)
+                while (count < width - space.Length && i < strIn.Length)
                 {
                     strOut += strIn[i];
                     i++;
+                    count++;
                 }
                 strOut = space + strOut;
-                if (strOut[strOut.Length - 1].ToString() == " ")
+                if (strOut[strOut.Length - 1].ToString() == " " || i == strOut.Length - 1)
                 {
                     list.Add(space + strOut);
                 }
                 else
                 {
                     int tempt = strOut.Length - 1;
+                    count = 0;
                     while (strOut[tempt] != ' ')
                     {
                         tempt--;
+                        count++;
                     }
                     list.Add(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt));
                     //for (int j = 0; j < tempt; j++)
                     //{
                     //    strOut += temptStr[j];
                     //}
-                    i = tempt;
+                    i -= count;
                 }
                 i++;
             }

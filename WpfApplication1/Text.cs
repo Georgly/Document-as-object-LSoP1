@@ -20,33 +20,37 @@ namespace WpfApplication1
 
         public virtual List<string> FormatStr(string strIn, int width)
         {
-            string strOut = "";
             int i = 0;
             while (i < strIn.Length)
             {
+                int count = 0;
                 //string temptStr = "";
-                while (i < width)
+                string strOut = "";
+                while (count < width && i < strIn.Length)
                 {
                     strOut += strIn[i];
                     i++;
+                    count++;
                 }
-                if (strOut[strIn.Length - 1].ToString() == " ")
+                if (strOut[strOut.Length - 1].ToString() == " " || i == strOut.Length -1)
                 {
                     _formatText.Add(strOut);
                 }
                 else
                 {
                     int tempt = strOut.Length - 1;
+                    count = 0;
                     while (strOut[tempt] != ' ')
                     {
                         tempt--;
+                        count++;
                     }
                     _formatText.Add(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt));
                     //for (int j = 0; j < tempt; j++)
                     //{
                     //    strOut += temptStr[j];
                     //}
-                    i = tempt;
+                    i -= count;
                 }
                 i++;
             }

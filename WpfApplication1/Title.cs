@@ -25,12 +25,10 @@ namespace WpfApplication1
             if (TitleTx.Length <= width)
             {
                 _formatText.Add(TitleTx);
-                _formatText.Add("");
             }
             else
             {
                 _formatText = FormatStr(TitleTx, width);
-                _formatText.Add("");
             }
             return _formatText;
         }
