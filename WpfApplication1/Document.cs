@@ -120,12 +120,12 @@ namespace WpfApplication1
             List<string> textFragment = new List<string>();
             for (int i = 0; i < _formatDocument.Count; i++)
             {
-                bool check = _formatDocument[i].GetType().ToString() == "WpfApplication1.Columns";
+                bool check = (_formatDocument[i].GetType().ToString() == "WpfApplication1.Columns");
                 if (check)
                 {
-                    if (i == _formatDocument.Count - 1 || _formatDocument[i + 1].GetType().ToString() != "WpfApplication1.Columns")
+                    if ((i == _formatDocument.Count - 1) || (_formatDocument[i + 1].GetType().ToString() != "WpfApplication1.Columns"))
                     {
-                        textFragment = _formatDocument[i].Show(width - 6);
+                        textFragment = _formatDocument[i].Show(width - 7);
                         for (int j = 0; j < textFragment.Count; j++)
                         {
                             formatText.Add("    " + textFragment[j]);
@@ -133,7 +133,7 @@ namespace WpfApplication1
                     }
                     else
                     {
-                        textFragment = FormatText.Show(_formatDocument[i].Show(width - 5), _formatDocument[i + 1].Show(width - 5));
+                        textFragment = FormattingText.Show(_formatDocument[i].Show(width/2 - 5), _formatDocument[i + 1].Show(width/2 - 5));
                         for (int j = 0; j < textFragment.Count; j++)
                         {
                             formatText.Add("    " + textFragment[j]);
@@ -142,7 +142,7 @@ namespace WpfApplication1
                 }
                 else
                 {
-                    textFragment = _formatDocument[i].Show(width - 1);
+                    textFragment = _formatDocument[i].Show(width);
                     for (int j = 0; j < textFragment.Count; j++)
                     {
                         formatText.Add(textFragment[j]);

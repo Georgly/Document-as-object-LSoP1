@@ -24,7 +24,6 @@ namespace WpfApplication1
             while (i < strIn.Length)
             {
                 int count = 0;
-                //string temptStr = "";
                 string strOut = "";
                 while (count < width && i < strIn.Length)
                 {
@@ -32,12 +31,15 @@ namespace WpfApplication1
                     i++;
                     count++;
                 }
-                if (strOut[strOut.Length - 1].ToString() == " " || i == strOut.Length -1)
+                i--;
+                if (strOut[strOut.Length - 1].ToString() == " " | i == strIn.Length -1 /*| strIn[i + 1].ToString() == " "*/)
                 {
-                    _formatText.Add(strOut);
+                    strOut = FormattingText.DeleteSpace(strOut);
+                    _formatText.Add(FormattingText.EndSpace(strOut, width));
                 }
                 else
                 {
+                    strOut = FormattingText.DeleteSpace(strOut);
                     int tempt = strOut.Length - 1;
                     count = 0;
                     while (strOut[tempt] != ' ')
@@ -45,11 +47,7 @@ namespace WpfApplication1
                         tempt--;
                         count++;
                     }
-                    _formatText.Add(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt));
-                    //for (int j = 0; j < tempt; j++)
-                    //{
-                    //    strOut += temptStr[j];
-                    //}
+                    _formatText.Add(FormattingText.EndSpace(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
                     i -= count;
                 }
                 i++;
@@ -60,9 +58,10 @@ namespace WpfApplication1
         public virtual List<string> Show(int width)
         {
             //string formatStr = "";
+            Content = FormattingText.DeleteSpace(Content);
             if (Content.Length <= width)
             {
-                _formatText.Add(Content);
+                _formatText.Add(FormattingText.EndSpace(Content, width));
             }
             else
             {

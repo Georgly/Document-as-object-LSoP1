@@ -44,12 +44,13 @@ namespace WpfApplication1
         public override List<string> Show(int width)
         {
             Parse();
-            List<string> list = FormatText;
+            List<string> list = new List<string>();/* = FormatText*/;
             for (int i = 0; i < FormatText.Count; i++)
             {
-                if (list[i].Length < width) // TODO сделать отступы и добавление пробелв до длины
+                FormatText[i] = FormattingText.DeleteSpace(FormatText[i]);
+                if (FormatText[i].Length < width) // TODO сделать отступы и добавление пробелв до длины
                 {
-                    list[i] = FormatText[i];
+                    list.Add(/*[i] = *//*FormattingText.EndSpace( */FormatText[i]);
                 }
                 else
                 {
@@ -67,7 +68,6 @@ namespace WpfApplication1
             while (i < strIn.Length)
             {
                 int count = 0;
-                //string temptStr = "";
                 if (i == 0)
                 {
                     space = " ";
@@ -82,13 +82,16 @@ namespace WpfApplication1
                     i++;
                     count++;
                 }
+                i--;
                 strOut = space + strOut;
-                if (strOut[strOut.Length - 1].ToString() == " " || i == strOut.Length - 1)
+                if (strOut[strOut.Length - 1].ToString() == " " || i == strIn.Length - 1)
                 {
-                    list.Add(space + strOut);
+                    strOut = FormattingText.DeleteSpace(strOut);
+                    list.Add(FormattingText.EndSpace(space + strOut, width));
                 }
                 else
                 {
+                    strOut = FormattingText.DeleteSpace(strOut);
                     int tempt = strOut.Length - 1;
                     count = 0;
                     while (strOut[tempt] != ' ')
@@ -96,16 +99,11 @@ namespace WpfApplication1
                         tempt--;
                         count++;
                     }
-                    list.Add(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt));
-                    //for (int j = 0; j < tempt; j++)
-                    //{
-                    //    strOut += temptStr[j];
-                    //}
+                    list.Add(FormattingText.EndSpace(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
                     i -= count;
                 }
                 i++;
             }
-            //return _formatText;
         }
 
         public string Content

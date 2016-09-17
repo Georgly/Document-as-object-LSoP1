@@ -103,7 +103,7 @@ namespace WpfApplication1
                     }
                     else
                     {
-                        textFragment = FormatText.Show(ColumnContent[i].Show(width - 5), ColumnContent[i + 1].Show(width - 5));
+                        textFragment = FormattingText.Show(ColumnContent[i].Show(width - 5), ColumnContent[i + 1].Show(width - 5));
                         for (int j = 0; j < textFragment.Count; j++)
                         {
                             formatText.Add("    " + textFragment[j]);
@@ -119,6 +119,7 @@ namespace WpfApplication1
                     }
                 }
             }
+            formatText.Add("");
             return formatText;
         }
 

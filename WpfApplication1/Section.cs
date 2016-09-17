@@ -92,12 +92,12 @@ namespace WpfApplication1
             List<string> textFragment;
             for (int i = 0; i < SectionContent.Count; i++)
             {
-                bool check = SectionContent[i].GetType().ToString() == "WpfApplication1.Columns";
+                bool check = (SectionContent[i].GetType().ToString() == "WpfApplication1.Columns");
                 if (check)
                 {
-                    if (i == SectionContent.Count - 1 || SectionContent[i + 1].GetType().ToString() != "WpfApplication1.Columns")
+                    if ((i == SectionContent.Count - 1) || (SectionContent[i + 1].GetType().ToString() != "WpfApplication1.Columns"))
                     {
-                        textFragment = SectionContent[i].Show(width - 6);
+                        textFragment = SectionContent[i].Show(width - 7);
                         for (int j = 0; j < textFragment.Count; j++)
                         {
                             formatText.Add("    " + textFragment[j]);
@@ -105,7 +105,7 @@ namespace WpfApplication1
                     }
                     else
                     {
-                        textFragment = FormatText.Show(SectionContent[i].Show(width - 5), SectionContent[i + 1].Show(width - 5));
+                        textFragment = FormattingText.Show(SectionContent[i].Show(width/2 - 5), SectionContent[i + 1].Show(width/2 - 5));
                         for (int j = 0; j < textFragment.Count; j++)
                         {
                             formatText.Add("    " + textFragment[j]);
@@ -118,10 +118,11 @@ namespace WpfApplication1
                     textFragment = SectionContent[i].Show(width - 1);
                     for (int j = 0; j < textFragment.Count; j++)
                     {
-                        formatText.Add(textFragment[j]);
+                        formatText.Add(" " + textFragment[j]);
                     }
                 }
             }
+            formatText.Add("");
             return formatText;
         }
 

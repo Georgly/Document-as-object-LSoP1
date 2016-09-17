@@ -19,12 +19,12 @@ namespace WpfApplication1
 
         public override List<string> Show(int width)
         {
-            //string formatStr = "";
+            TitleTx = FormattingText.DeleteSpace(TitleTx);
             string edit = "    ";
             TitleTx = edit + TitleTx.ToUpper();
             if (TitleTx.Length <= width)
             {
-                _formatText.Add(TitleTx);
+                _formatText.Add(FormattingText.EndSpace(TitleTx, width));
             }
             else
             {
