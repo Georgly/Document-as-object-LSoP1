@@ -27,9 +27,9 @@ namespace WpfApplication1
                 {
                     Text text = new Text();
                     text.Content = SomeNeedOverWrite.CopyStrToStr(Content, 0, Tegs[0].Position);
+                    text.Content = FormattingText.DeleteSpace(text.Content);
                     if (text.Content.Length != 0)
                     {
-                        text.Content = FormattingText.DeleteSpace(text.Content);
                         ColumnContent.Add(text);
                     }
                 }
@@ -96,7 +96,10 @@ namespace WpfApplication1
                         Text text = new Text();
                         text.Content = SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 4, Content.Length);
                         text.Content = FormattingText.DeleteSpace(text.Content);
-                        ColumnContent.Add(text);
+                        if (text.Content.Length != 0)
+                        {
+                            ColumnContent.Add(text);
+                        }
                     }
                 }
             }

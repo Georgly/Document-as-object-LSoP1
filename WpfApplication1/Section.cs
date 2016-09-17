@@ -28,9 +28,9 @@ namespace WpfApplication1
                 {
                     Text text = new Text();
                     text.Content = SomeNeedOverWrite.CopyStrToStr(Content, 0, Tegs[0].Position);
+                    text.Content = FormattingText.DeleteSpace(text.Content);
                     if (text.Content.Length != 0)
                     {
-                        text.Content = FormattingText.DeleteSpace(text.Content);
                         SectionContent.Add(text);
                     }
                 }
@@ -80,7 +80,6 @@ namespace WpfApplication1
                     }
                     if (i < Tegs.Count - 2)
                     {
-                        //int j = EndTeg(i, Tegs[i].TegType[1].ToString() + Tegs[i].TegType[2].ToString());
                         if (i < Tegs.Count - 1)
                         {
                             if ((Tegs[i + 1].Position - Tegs[i].Position + 4 > 3) && FormattingText.DeleteSpace(SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 4, Tegs[i + 1].Position)) != "")
@@ -97,7 +96,10 @@ namespace WpfApplication1
                         Text text = new Text();
                         text.Content = SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 4, Content.Length);
                         text.Content = FormattingText.DeleteSpace(text.Content);
-                        SectionContent.Add(text);
+                        if (text.Content.Length != 0)
+                        {
+                            SectionContent.Add(text);
+                        }
                     }
                 }
             }
