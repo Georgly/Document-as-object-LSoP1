@@ -57,7 +57,6 @@ namespace WpfApplication1
 
         public virtual List<string> Show(int width)
         {
-            //string formatStr = "";
             Content = FormattingText.DeleteSpace(Content);
             if (Content.Length <= width)
             {

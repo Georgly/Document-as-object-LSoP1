@@ -28,9 +28,9 @@ namespace WpfApplication1
                 {
                     FormatText.Add(SomeNeedOverWrite.CopyStrToStr(Content, 0, Tegs[0].Position));
                 }
-                for (int i = 0; i < Tegs.Count; i++)
+                for (int i = 0, j = 1; i < Tegs.Count; i++, j++)
                 {
-                    string listItem = i + "." + " " + SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 3, Tegs[i + 1].Position);
+                    string listItem = j + "." + " " + SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 3, Tegs[i + 1].Position);
                     FormatText.Add(listItem);
                     i++;
                 }
@@ -44,18 +44,11 @@ namespace WpfApplication1
         public override List<string> Show(int width)
         {
             Parse();
-            List<string> list = new List<string>();/* = FormatText*/;
+            List<string> list = new List<string>();
             for (int i = 0; i < FormatText.Count; i++)
             {
                 FormatText[i] = FormattingText.DeleteSpace(FormatText[i]);
-                if (FormatText[i].Length < width) // TODO сделать отступы и добавление пробелв до длины
-                {
-                    list.Add(/*[i] = *//*FormattingText.EndSpace( */FormatText[i]);
-                }
-                else
-                {
-                    /*list[i] = */FormatStr(FormatText[i], width, ref list);
-                }
+                FormatStr(FormatText[i], width, ref list);
             }
             return list;
         }
@@ -68,13 +61,13 @@ namespace WpfApplication1
             while (i < strIn.Length)
             {
                 int count = 0;
-                if (i == 0)
+                if (list.Count == 0)
                 {
                     space = " ";
                 }
                 else
                 {
-                    space = "    ";
+                    space = "   ";
                 }
                 while (count < width - space.Length && i < strIn.Length)
                 {
@@ -83,7 +76,6 @@ namespace WpfApplication1
                     count++;
                 }
                 i--;
-                strOut = space + strOut;
                 if (strOut[strOut.Length - 1].ToString() == " " || i == strIn.Length - 1)
                 {
                     strOut = FormattingText.DeleteSpace(strOut);
@@ -99,7 +91,7 @@ namespace WpfApplication1
                         tempt--;
                         count++;
                     }
-                    list.Add(FormattingText.EndSpace(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
+                    list.Add(FormattingText.EndSpace(space + SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
                     i -= count;
                 }
                 i++;

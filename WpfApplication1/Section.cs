@@ -24,11 +24,15 @@ namespace WpfApplication1
         {
             if (Tegs.Count != 0)
             {
-                if (Tegs[0].Position != 0)// TODO TODO исправить добавление пробела
+                if (Tegs[0].Position != 0)
                 {
                     Text text = new Text();
                     text.Content = SomeNeedOverWrite.CopyStrToStr(Content, 0, Tegs[0].Position);
-                    SectionContent.Add(text);
+                    text.Content = FormattingText.DeleteSpace(text.Content);
+                    if (text.Content.Length != 0)
+                    {
+                        SectionContent.Add(text);
+                    }
                 }
                 for (int i = 0; i < Tegs.Count; i++)
                 {
@@ -73,6 +77,29 @@ namespace WpfApplication1
                                 i = j;
                                 break;
                             }
+                    }
+                    if (i < Tegs.Count - 2)
+                    {
+                        if (i < Tegs.Count - 1)
+                        {
+                            if ((Tegs[i + 1].Position - Tegs[i].Position + 4 > 3) && FormattingText.DeleteSpace(SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 4, Tegs[i + 1].Position)) != "")
+                            {
+                                Text text = new Text();
+                                text.Content = SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 4, Tegs[i + 1].Position);
+                                text.Content = FormattingText.DeleteSpace(text.Content);
+                                SectionContent.Add(text);
+                            }
+                        }
+                    }
+                    if ((i == Tegs.Count - 1) && (Tegs[i].Position + 3 < Content.Length - 1))
+                    {
+                        Text text = new Text();
+                        text.Content = SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 4, Content.Length);
+                        text.Content = FormattingText.DeleteSpace(text.Content);
+                        if (text.Content.Length != 0)
+                        {
+                            SectionContent.Add(text);
+                        }
                     }
                 }
             }

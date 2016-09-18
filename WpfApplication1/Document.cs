@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.IO;
-// -- /с//з/есампри/!з//л/самрпир/п/ртол/!п//п/мпио/!п//!л//!с/
+
 namespace WpfApplication1
 {
     class Document
@@ -65,6 +65,16 @@ namespace WpfApplication1
             }
             else
             {
+                if (Tegs[0].Position != 0)
+                {
+                    Text text = new Text();
+                    text.Content = SomeNeedOverWrite.CopyStrToStr(_text, 0, Tegs[0].Position);
+                    text.Content = FormattingText.DeleteSpace(text.Content);
+                    if (text.Content.Length != 0)
+                    {
+                        _formatDocument.Add(text);
+                    }
+                }
                 for (int i = 0; i < Tegs.Count; i++)
                 {
                     switch (Tegs[i].TegType)
@@ -73,7 +83,7 @@ namespace WpfApplication1
                             {
                                 Section section = new Section();
                                 int j = EndTeg(i, "с/");
-                                section.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 3, Tegs[j].Position);//правильно
+                                section.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 3, Tegs[j].Position);
                                 section.Tegs = SomeNeedOverWrite.CopyListToList(Tegs, i + 1, j);
                                 _formatDocument.Add(section);
                                 i = j;
@@ -108,6 +118,29 @@ namespace WpfApplication1
                                 i = j;
                                 break;
                             }
+                    }
+                    if (i < Tegs.Count - 2)
+                    {
+                        if (i < Tegs.Count - 1)
+                        {
+                            if ((Tegs[i + 1].Position - Tegs[i].Position + 4 > 3) && FormattingText.DeleteSpace(SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 4, Tegs[i + 1].Position)) != "")
+                            {
+                                Text text = new Text();
+                                text.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 4, Tegs[i + 1].Position);
+                                text.Content = FormattingText.DeleteSpace(text.Content);
+                                _formatDocument.Add(text);
+                            }
+                        }
+                    }
+                    if ((i == Tegs.Count - 1) && (Tegs[i].Position + 3 < _text.Length - 1))
+                    {
+                        Text text = new Text();
+                        text.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 4, _text.Length);
+                        text.Content = FormattingText.DeleteSpace(text.Content);
+                        if (text.Content.Length != 0)
+                        {
+                            _formatDocument.Add(text);
+                        }
                     }
                 }
             }

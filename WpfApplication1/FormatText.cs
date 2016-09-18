@@ -22,13 +22,13 @@ namespace WpfApplication1
             {
                 int i = 0;
                 int length = firstColumn[0].Length;
-                for (i = 0; i < firstColumn.Count; i++)
+                for (i = 0; i < firstColumn.Count - 1; i++)
                 {
                     columns.Add(firstColumn[i] + "   " + secondColumn[i]);
                 }
                 for (int j = i; j < secondColumn.Count; j++)
                 {
-                    columns.Add(secondColumn[j]);
+                    columns.Add("    " + EndSpace(" ", secondColumn[j].Length/2) + "   " + secondColumn[j]);
                 }
             }
             else
@@ -69,25 +69,25 @@ namespace WpfApplication1
             return strOut = strIn + space;
         }
 
-        public static void Margin() //TODO
-        { }
-
         public static string DeleteSpace(string strIn)
         {
             string strOut = "";
-            int i = 0;
-            while (strIn[i].ToString() == " " && i < strIn.Length)
+            if (strIn.Length != 0)
             {
-                i++;
-            }
-            int j = strIn.Length - 1;
-            while (strIn[j].ToString() == " " && j > 0)
-            {
-                j--;
-            }
-            for (int k = i; k <= j; k++)
-            {
-                strOut += strIn[k];
+                int i = 0;
+                while (i < strIn.Length && strIn[i].ToString() == " ")
+                {
+                    i++;
+                }
+                int j = strIn.Length - 1;
+                while (j > 0 && strIn[j].ToString() == " ")
+                {
+                    j--;
+                }
+                for (int k = i; k <= j; k++)
+                {
+                    strOut += strIn[k];
+                }
             }
             return strOut;
         }
