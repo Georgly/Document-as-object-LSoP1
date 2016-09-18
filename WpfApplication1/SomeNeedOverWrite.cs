@@ -36,7 +36,7 @@ namespace WpfApplication1
 
             for (int i = firstIndex; i < lastIndex; i++)
             {
-                strOut += strIn[i]; // за границей массива
+                strOut += strIn[i];
             }
             return strOut;
         }
@@ -67,19 +67,6 @@ namespace WpfApplication1
 
             return listOut;
         }
-
-        //static public List<Tegs> DeltaPos(List<Tegs> list)
-        //{
-        //    if (list.Count != 0)
-        //    {
-        //        int delta = list[0].Position;
-        //        for (int i = 1; i < list.Count; i++)
-        //        {
-        //            list[i].Position -= delta;
-        //        }
-        //    }
-        //    return list;
-        //}
 
         static public int FindIndex(List<Tegs> list, string teg)
         {

@@ -9,60 +9,64 @@ namespace WpfApplication1
 {
     class Text
     {
+        List<string> _formatText;
         string _content = "";
 
         public Text()
         {
             Content = "";
+            _formatText = new List<string>();
         }
 
-        public string FormatStr(string strIn, int width)
+        public virtual List<string> FormatStr(string strIn, int width)
         {
-            string strOut = "";
             int i = 0;
             while (i < strIn.Length)
             {
-                string temptStr = "";
-                while (i < width)
+                int count = 0;
+                string strOut = "";
+                while (count < width && i < strIn.Length)
                 {
-                    temptStr += strIn[i];
+                    strOut += strIn[i];
                     i++;
+                    count++;
                 }
-                if (temptStr[strIn.Length - 1].ToString() == " ")
+                i--;
+                if (strOut[strOut.Length - 1].ToString() == " " | i == strIn.Length -1 /*| strIn[i + 1].ToString() == " "*/)
                 {
-                    strOut += temptStr + "\n";
+                    strOut = FormattingText.DeleteSpace(strOut);
+                    _formatText.Add(FormattingText.EndSpace(strOut, width));
                 }
                 else
                 {
-                    int tempt = temptStr.Length - 1;
-                    while (temptStr[tempt] != ' ')
+                    strOut = FormattingText.DeleteSpace(strOut);
+                    int tempt = strOut.Length - 1;
+                    count = 0;
+                    while (strOut[tempt] != ' ')
                     {
                         tempt--;
+                        count++;
                     }
-                    for (int j = 0; j < tempt; j++)
-                    {
-                        strOut += temptStr[j];
-                    }
-                    strOut += "\n";
-                    i = tempt;
+                    _formatText.Add(FormattingText.EndSpace(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
+                    i -= count;
                 }
                 i++;
             }
-            return strOut;
+            return _formatText;
         }
 
-        public virtual string Show(int width)
+        public virtual List<string> Show(int width)
         {
-            string formatStr = "";
+            Content = FormattingText.DeleteSpace(Content);
             if (Content.Length <= width)
             {
-                formatStr = Content;
+                _formatText.Add(FormattingText.EndSpace(Content, width));
             }
             else
             {
-                FormatStr(Content, width);
+                return FormatStr(Content, width);
             }
-            return formatStr;
+            return _formatText;
         }
 
         public string Content

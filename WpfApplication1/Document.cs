@@ -29,8 +29,11 @@ namespace WpfApplication1
                 if (CheckEnter())
                 {
                     file = new StreamWriter("Text.txt", false);
-                    string result = Show(width);
-                    file.WriteLine(result);
+                    List<string> result = Show(width);
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        file.WriteLine(result[i]);
+                    }
                     file.Close();
                 }
                 else
@@ -62,6 +65,16 @@ namespace WpfApplication1
             }
             else
             {
+                if (Tegs[0].Position != 0)
+                {
+                    Text text = new Text();
+                    text.Content = SomeNeedOverWrite.CopyStrToStr(_text, 0, Tegs[0].Position);
+                    text.Content = FormattingText.DeleteSpace(text.Content);
+                    if (text.Content.Length != 0)
+                    {
+                        _formatDocument.Add(text);
+                    }
+                }
                 for (int i = 0; i < Tegs.Count; i++)
                 {
                     switch (Tegs[i].TegType)
@@ -70,7 +83,7 @@ namespace WpfApplication1
                             {
                                 Section section = new Section();
                                 int j = EndTeg(i, "с/");
-                                section.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 3, Tegs[j].Position);//правильно
+                                section.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 3, Tegs[j].Position);
                                 section.Tegs = SomeNeedOverWrite.CopyListToList(Tegs, i + 1, j);
                                 _formatDocument.Add(section);
                                 i = j;
@@ -106,19 +119,70 @@ namespace WpfApplication1
                                 break;
                             }
                     }
+                    if (i < Tegs.Count - 2)
+                    {
+                        if (i < Tegs.Count - 1)
+                        {
+                            if ((Tegs[i + 1].Position - Tegs[i].Position + 4 > 3) && FormattingText.DeleteSpace(SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 4, Tegs[i + 1].Position)) != "")
+                            {
+                                Text text = new Text();
+                                text.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 4, Tegs[i + 1].Position);
+                                text.Content = FormattingText.DeleteSpace(text.Content);
+                                _formatDocument.Add(text);
+                            }
+                        }
+                    }
+                    if ((i == Tegs.Count - 1) && (Tegs[i].Position + 3 < _text.Length - 1))
+                    {
+                        Text text = new Text();
+                        text.Content = SomeNeedOverWrite.CopyStrToStr(_text, Tegs[i].Position + 4, _text.Length);
+                        text.Content = FormattingText.DeleteSpace(text.Content);
+                        if (text.Content.Length != 0)
+                        {
+                            _formatDocument.Add(text);
+                        }
+                    }
                 }
             }
         }
 
-        string Show(int width)
+        List<string> Show(int width)
         {
             Parse();
-            string result = "";
+            List<string> formatText = new List<string>();
+            List<string> textFragment = new List<string>();
             for (int i = 0; i < _formatDocument.Count; i++)
             {
-                result += _formatDocument[i].Show(width);
+                bool check = (_formatDocument[i].GetType().ToString() == "WpfApplication1.Columns");
+                if (check)
+                {
+                    if ((i == _formatDocument.Count - 1) || (_formatDocument[i + 1].GetType().ToString() != "WpfApplication1.Columns"))
+                    {
+                        textFragment = _formatDocument[i].Show(width - 7);
+                        for (int j = 0; j < textFragment.Count; j++)
+                        {
+                            formatText.Add("    " + textFragment[j]);
+                        }
+                    }
+                    else
+                    {
+                        textFragment = FormattingText.Show(_formatDocument[i].Show(width/2 - 5), _formatDocument[i + 1].Show(width/2 - 5));
+                        for (int j = 0; j < textFragment.Count; j++)
+                        {
+                            formatText.Add("    " + textFragment[j]);
+                        }
+                    }
+                }
+                else
+                {
+                    textFragment = _formatDocument[i].Show(width);
+                    for (int j = 0; j < textFragment.Count; j++)
+                    {
+                        formatText.Add(textFragment[j]);
+                    }
+                }
             }
-            return result;
+            return formatText;
         }
 
         int EndTeg(int beginPos ,string teg)

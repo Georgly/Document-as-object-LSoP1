@@ -9,26 +9,28 @@ namespace WpfApplication1
     class Title : Text
     {
         string _titleTx;
+        List<string> _formatText;
 
         public Title()
         {
             TitleTx = "";
+            _formatText = new List<string>();
         }
 
-        public override string Show(int width)
+        public override List<string> Show(int width)
         {
-            string formatStr = "";
-            string edit = "   ";
-            TitleTx = edit + TitleTx;
+            TitleTx = FormattingText.DeleteSpace(TitleTx);
+            string edit = "    ";
+            TitleTx = edit + TitleTx.ToUpper();
             if (TitleTx.Length <= width)
             {
-                formatStr = TitleTx + "\n";
+                _formatText.Add(FormattingText.EndSpace(TitleTx, width));
             }
             else
             {
-                FormatStr(TitleTx, width);
+                _formatText = FormatStr(TitleTx, width);
             }
-            return formatStr;
+            return _formatText;
         }
 
         public string TitleTx
