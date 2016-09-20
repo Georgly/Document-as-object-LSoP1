@@ -9,9 +9,9 @@ namespace WpfApplication1
 {
     class MarkerList : Text
     {
-        List<string> _formatText;
-        string _content;
-        List<Tegs> _tegs;
+        private List<string> _formatText;
+        private string _content;
+        private List<Tegs> _tegs;
 
         public MarkerList()
         {
@@ -20,7 +20,7 @@ namespace WpfApplication1
             FormatText = new List<string>();
         }
 
-        void Parse()
+        private void Parse()
         {
             if (Tegs.Count != 0)
             {
@@ -48,14 +48,7 @@ namespace WpfApplication1
             for (int i = 0; i < FormatText.Count; i++)
             {
                 FormatText[i] = FormattingText.DeleteSpace(FormatText[i]);
-                if (FormatText[i].Length < width) // TODO сделать отступы и добавление пробелв до длины
-                {
-                    list.Add(FormatText[i]);
-                }
-                else
-                {
-                    FormatStr(FormatText[i], width, ref list);
-                }
+                FormatStr(FormatText[i], width, ref list);
             }
             return list;
         }
@@ -68,13 +61,13 @@ namespace WpfApplication1
             while (i < strIn.Length)
             {
                 int count = 0;
-                if (i == 0)
+                if (list.Count == 0)
                 {
                     space = " ";
                 }
                 else
                 {
-                    space = "    ";
+                    space = "   ";
                 }
                 while (count < width - space.Length && i < strIn.Length)
                 {
@@ -83,7 +76,6 @@ namespace WpfApplication1
                     count++;
                 }
                 i--;
-                //strOut = space + strOut;
                 if (strOut[strOut.Length - 1].ToString() == " " || i == strIn.Length - 1)
                 {
                     strOut = FormattingText.DeleteSpace(strOut);
@@ -94,13 +86,22 @@ namespace WpfApplication1
                     strOut = FormattingText.DeleteSpace(strOut);
                     int tempt = strOut.Length - 1;
                     count = 0;
-                    while (strOut[tempt] != ' ')
+                    while (strOut[tempt] != ' ' && tempt > 0)
                     {
                         tempt--;
                         count++;
                     }
-                    list.Add(FormattingText.EndSpace(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
-                    i -= count;
+                    if (tempt > 0)
+                    {
+                        list.Add(FormattingText.EndSpace(space + SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
+                        i -= count;
+                    }
+                    else
+                    {
+                        strOut = Hyphenation.MakeHyphenation(strOut);
+                        list.Add(FormattingText.EndSpace(strOut, width));
+                        i -= count - (strOut.Length - 2);
+                    }
                 }
                 i++;
             }
@@ -118,7 +119,7 @@ namespace WpfApplication1
             set { _tegs = value; }
         }
 
-        List<string> FormatText
+        private List<string> FormatText
         {
             get { return _formatText; }
             set { _formatText = value; }

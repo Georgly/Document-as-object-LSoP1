@@ -58,6 +58,7 @@
     <Compile Include="Columns.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="Error.cs" />
+    <Compile Include="Hyphenation.cs" />
     <Compile Include="MarkerList.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="FormatText.cs" />

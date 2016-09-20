@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.IO;
-// -- /с//з/есампри/!з//л/самрпир/п/ртол/!п//п/мпио/!п//!л//!с/
+
 namespace WpfApplication1
 {
     class Document
     {
-        List<Text> _formatDocument;
-        string _text;
-        List<Tegs> _tegs;
+        private List<Text> _formatDocument;
+        private string _text;
+        private List<Tegs> _tegs;
 
         public Document(string text)
         {
@@ -54,7 +54,7 @@ namespace WpfApplication1
             }
         }
 
-        void Parse()
+        private void Parse()
         {
             SomeNeedOverWrite.SortList(ref _tegs);
             if (Tegs.Count == 0)
@@ -146,7 +146,7 @@ namespace WpfApplication1
             }
         }
 
-        List<string> Show(int width)
+        private List<string> Show(int width)
         {
             Parse();
             List<string> formatText = new List<string>();
@@ -185,7 +185,7 @@ namespace WpfApplication1
             return formatText;
         }
 
-        int EndTeg(int beginPos ,string teg)
+        private int EndTeg(int beginPos ,string teg)
         {
             int countRepeat = 1;
             int i = beginPos + 1;
@@ -204,7 +204,7 @@ namespace WpfApplication1
             return i - 1;
         }
 
-        bool CheckEnter()
+        private bool CheckEnter()
         {
             bool check = true;
             for (int i = 1; i <= 5; i++)
@@ -245,7 +245,7 @@ namespace WpfApplication1
             return check;
         }
 
-        bool FindTeg(string type)
+        private bool FindTeg(string type)
         {
             int left = 0;
             int right = _text.Length;
@@ -290,7 +290,7 @@ namespace WpfApplication1
             return true;
         }
 
-        List<Tegs> Tegs
+        private List<Tegs> Tegs
         {
             get { return _tegs; }
             set { _tegs = value; }

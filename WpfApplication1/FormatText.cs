@@ -22,13 +22,13 @@ namespace WpfApplication1
             {
                 int i = 0;
                 int length = firstColumn[0].Length;
-                for (i = 0; i < firstColumn.Count; i++)
+                for (i = 0; i < firstColumn.Count - 1; i++)
                 {
                     columns.Add(firstColumn[i] + "   " + secondColumn[i]);
                 }
                 for (int j = i; j < secondColumn.Count; j++)
                 {
-                    columns.Add(secondColumn[j]);
+                    columns.Add("    " + EndSpace(" ", secondColumn[j].Length/2) + "   " + secondColumn[j]);
                 }
             }
             else
@@ -69,9 +69,6 @@ namespace WpfApplication1
             return strOut = strIn + space;
         }
 
-        public static void Margin() //TODO
-        { }
-
         public static string DeleteSpace(string strIn)
         {
             string strOut = "";
@@ -93,6 +90,17 @@ namespace WpfApplication1
                 }
             }
             return strOut;
+        }
+
+        public static string Margin(int delta, int width)//TODO
+        {
+            // возможно понадобиться делать if(width > 50){ delta *= 2}
+            string space = "";
+            for (int i = 0; i < width/delta; i++)
+            {
+                space += " ";
+            }
+            return space;
         }
     }
 }

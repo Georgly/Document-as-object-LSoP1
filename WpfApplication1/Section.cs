@@ -9,9 +9,9 @@ namespace WpfApplication1
 {
     class Section : Text
     {
-        List<Text> _sectionContent;
-        string _content;
-        List<Tegs> _tegs;
+        private List<Text> _sectionContent;
+        private string _content;
+        private List<Tegs> _tegs;
 
         public Section()
         {
@@ -20,7 +20,7 @@ namespace WpfApplication1
             SectionContent = new List<Text>();
         }
 
-        void Parse()
+        private void Parse()
         {
             if (Tegs.Count != 0)
             {
@@ -190,7 +190,7 @@ namespace WpfApplication1
             set { _tegs = value; }
         }
 
-        List<Text> SectionContent
+        private List<Text> SectionContent
         {
             get { return _sectionContent; }
             set { _sectionContent = value; }

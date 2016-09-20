@@ -36,7 +36,7 @@ namespace WpfApplication1
 
             for (int i = firstIndex; i < lastIndex; i++)
             {
-                strOut += strIn[i]; // за границей массива
+                strOut += strIn[i];
             }
             return strOut;
         }

@@ -8,8 +8,8 @@ namespace WpfApplication1
 {
     class Title : Text
     {
-        string _titleTx;
-        List<string> _formatText;
+        private string _titleTx;
+        private List<string> _formatText;
 
         public Title()
         {

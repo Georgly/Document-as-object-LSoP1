@@ -9,8 +9,8 @@ namespace WpfApplication1
 {
     class Text
     {
-        List<string> _formatText;
-        string _content = "";
+        private List<string> _formatText;
+        private string _content = "";
 
         public Text()
         {
@@ -32,7 +32,7 @@ namespace WpfApplication1
                     count++;
                 }
                 i--;
-                if (strOut[strOut.Length - 1].ToString() == " " | i == strIn.Length -1 /*| strIn[i + 1].ToString() == " "*/)
+                if (strOut[strOut.Length - 1].ToString() == " " | i == strIn.Length -1)
                 {
                     strOut = FormattingText.DeleteSpace(strOut);
                     _formatText.Add(FormattingText.EndSpace(strOut, width));
@@ -42,13 +42,22 @@ namespace WpfApplication1
                     strOut = FormattingText.DeleteSpace(strOut);
                     int tempt = strOut.Length - 1;
                     count = 0;
-                    while (strOut[tempt] != ' ')
+                    while (strOut[tempt] != ' ' && tempt > 0)
                     {
                         tempt--;
                         count++;
                     }
-                    _formatText.Add(FormattingText.EndSpace(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
-                    i -= count;
+                    if (tempt > 0)
+                    {
+                        _formatText.Add(FormattingText.EndSpace(SomeNeedOverWrite.CopyStrToStr(strOut, 0, tempt), width));
+                        i -= count;
+                    }
+                    else
+                    {
+                        strOut = Hyphenation.MakeHyphenation(strOut);
+                        _formatText.Add(FormattingText.EndSpace(strOut, width));
+                        i -= count - (strOut.Length - 2);
+                    }
                 }
                 i++;
             }

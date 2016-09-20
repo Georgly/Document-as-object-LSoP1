@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WpfApplication1
 {
-    class Columns : Text //have to think some houres
+    class Columns : Text
     {
-        List<Text> _columnContent;
-        string _content;
-        List<Tegs> _tegs;
+        private List<Text> _columnContent;
+        private string _content;
+        private List<Tegs> _tegs;
 
         public Columns()
         {
@@ -19,7 +19,7 @@ namespace WpfApplication1
             Tegs = new List<Tegs>();
         }
 
-        void Parse()
+        private void Parse()
         {
             if (Tegs.Count != 0)
             {
@@ -79,7 +79,6 @@ namespace WpfApplication1
                     }
                     if (i < Tegs.Count - 2)
                     {
-                        //int j = EndTeg(i, Tegs[i].TegType[1].ToString() + Tegs[i].TegType[2].ToString());
                         if (i < Tegs.Count - 1)
                         {
                             if ((Tegs[i + 1].Position - Tegs[i].Position + 4 > 3) && FormattingText.DeleteSpace(SomeNeedOverWrite.CopyStrToStr(Content, Tegs[i].Position + 4, Tegs[i + 1].Position)) != "")
@@ -170,7 +169,7 @@ namespace WpfApplication1
             return i;
         }
 
-        List<Text> ColumnContent
+        private List<Text> ColumnContent
         {
             get { return _columnContent; }
             set { _columnContent = value; }
