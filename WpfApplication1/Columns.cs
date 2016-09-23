@@ -125,16 +125,17 @@ namespace WpfApplication1
                         textFragment = ColumnContent[i].Show(width - 6);
                         for (int j = 0; j < textFragment.Count; j++)
                         {
-                            formatText.Add("    " + textFragment[j]);
+                            formatText.Add(FormattingText.Margin(7, width) + textFragment[j]);
                         }
                     }
                     else
                     {
-                        textFragment = FormattingText.Show(ColumnContent[i].Show(width - 5), ColumnContent[i + 1].Show(width - 5));
+                        textFragment = FormattingText.Show(ColumnContent[i].Show(width - FormattingText.Margin(7, width).Length), ColumnContent[i + 1].Show(width - FormattingText.Margin(10, width).Length), width);
                         for (int j = 0; j < textFragment.Count; j++)
                         {
-                            formatText.Add("    " + textFragment[j]);
+                            formatText.Add(FormattingText.Margin(7, width) + textFragment[j]);
                         }
+                        i++;
                     }
                 }
                 else
@@ -153,7 +154,7 @@ namespace WpfApplication1
         public int EndTeg(int beginPos, string teg)
         {
             int countRepeat = 1;
-            int i = beginPos;
+            int i = beginPos + 1;
             while (countRepeat != 0)
             {
                 if ("/" + teg == Tegs[i].TegType)
@@ -166,7 +167,7 @@ namespace WpfApplication1
                 }
                 i++;
             }
-            return i;
+            return i - 1;
         }
 
         private List<Text> ColumnContent

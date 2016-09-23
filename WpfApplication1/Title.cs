@@ -20,7 +20,7 @@ namespace WpfApplication1
         public override List<string> Show(int width)
         {
             TitleTx = FormattingText.DeleteSpace(TitleTx);
-            string edit = "    ";
+            string edit = FormattingText.Margin(7, width);
             TitleTx = edit + TitleTx.ToUpper();
             if (TitleTx.Length <= width)
             {

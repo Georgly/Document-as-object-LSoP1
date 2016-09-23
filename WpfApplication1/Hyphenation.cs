@@ -34,6 +34,18 @@ namespace WpfApplication1
             }
         }
 
+        private static bool VowelConsonant(char letterOne, char letterTwo)
+        {
+            if (CheckVowel(letterOne) && !CheckVowel(letterTwo))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private static bool CheckVowel(char letter)
         {
             for (int i = 0; i < wovel.Length; i++)
@@ -49,6 +61,18 @@ namespace WpfApplication1
         private static bool DoubleConsonant(char letterOne, char letterTwo)
         {
             if (!CheckVowel(letterOne) && !CheckVowel(letterTwo))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private static bool DoubleVowel(char letterOne, char letterTwo)
+        {
+            if (CheckVowel(letterOne) && CheckVowel(letterTwo))
             {
                 return true;
             }
@@ -74,23 +98,50 @@ namespace WpfApplication1
             }
         }
 
+        private static bool NotLetter(char letter)
+        {
+            if (CheckVowel(letter) || !CheckVowel(letter))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public static string MakeHyphenation(string strIn)//TODO 
         {
             string strOut;
             int strLength = strIn.Length;
-            while (strLength > 1)
+            while (strLength > 2)
             {
+                if (NotLetter(strIn[strLength - 1]))
+                {
+                    strOut = SomeNeedOverWrite.CopyStrToStr(strIn, 0, strLength - 1);
+                    return strOut;
+                }
                 if (UnLike(strIn[strLength - 2], strIn[strLength - 1]))
                 {
                     strOut = SomeNeedOverWrite.CopyStrToStr(strIn, 0, strLength) + "-";
                     return strOut;
                 }
-                else if (ConsonantVowel(strIn[strLength - 2], strIn[strLength - 1]))
+                else if (DoubleVowel(strIn[strLength - 2], strIn[strLength - 1]))
                 {
-                    strOut = SomeNeedOverWrite.CopyStrToStr(strIn, 0, strLength - 2) + "-";
+                    strOut = SomeNeedOverWrite.CopyStrToStr(strIn, 0, strLength - 1) + "-";
                     return strOut;
                 }
-                else if(DoubleConsonant(strIn[strLength - 2], strIn[strLength - 1]) && strLength > 2)
+                else if (ConsonantVowel(strIn[strLength - 2], strIn[strLength - 1]))
+                {
+                    strOut = SomeNeedOverWrite.CopyStrToStr(strIn, 0, strLength /*- 2*/) + "-";
+                    return strOut;
+                }
+                else if(DoubleConsonant(strIn[strLength - 2], strIn[strLength - 1]))
+                {
+                    strOut = SomeNeedOverWrite.CopyStrToStr(strIn, 0, strLength - 1) + "-";
+                    return strOut;
+                }
+                else if (VowelConsonant(strIn[strLength - 2], strIn[strLength - 1]))
                 {
                     strOut = SomeNeedOverWrite.CopyStrToStr(strIn, 0, strLength - 1) + "-";
                     return strOut;

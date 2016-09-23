@@ -127,15 +127,15 @@ namespace WpfApplication1
                         textFragment = SectionContent[i].Show(width - 7);
                         for (int j = 0; j < textFragment.Count; j++)
                         {
-                            formatText.Add("    " + textFragment[j]);
+                            formatText.Add(FormattingText.Margin(7, width) + textFragment[j]);
                         }
                     }
                     else
                     {
-                        textFragment = FormattingText.Show(SectionContent[i].Show(width/2 - 5), SectionContent[i + 1].Show(width/2 - 5));
+                        textFragment = FormattingText.Show(SectionContent[i].Show(width/2 - 5), SectionContent[i + 1].Show(width/2 - 5), width);
                         for (int j = 0; j < textFragment.Count; j++)
                         {
-                            formatText.Add("    " + textFragment[j]);
+                            formatText.Add(FormattingText.Margin(7, width) + textFragment[j]);
                         }
                         i++;
                     }
@@ -145,11 +145,11 @@ namespace WpfApplication1
                     textFragment = SectionContent[i].Show(width - 1);
                     for (int j = 0; j < textFragment.Count; j++)
                     {
-                        formatText.Add(" " + textFragment[j]);
+                        formatText.Add(FormattingText.Margin(width, width) + textFragment[j]);
                     }
                 }
             }
-            formatText.Add("");
+            formatText.Add(FormattingText.Margin(7, width));// добавить пробелов
             return formatText;
         }
 

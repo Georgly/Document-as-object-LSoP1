@@ -55,19 +55,20 @@ namespace WpfApplication1
 
         public void FormatStr(string strIn, int width, ref List<string> list)
         {
-            string strOut = "";
+            string strOut;
             int i = 0;
             string space;
             while (i < strIn.Length)
             {
+                strOut = "";
                 int count = 0;
                 if (list.Count == 0)
                 {
-                    space = " ";
+                    space = FormattingText.Margin(width, width);
                 }
                 else
                 {
-                    space = "   ";
+                    space = FormattingText.Margin(7, width);
                 }
                 while (count < width - space.Length && i < strIn.Length)
                 {

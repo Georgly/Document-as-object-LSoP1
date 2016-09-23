@@ -8,14 +8,14 @@ namespace WpfApplication1
 {
     class FormattingText
     {
-        public static List<string> Show(List<string> firstColumn, List<string> secondColumn)
+        public static List<string> Show(List<string> firstColumn, List<string> secondColumn, int width)
         {
             List<string> columns = new List<string>();
             if (firstColumn.Count == secondColumn.Count)
             {
                 for (int i = 0; i < firstColumn.Count; i++)
                 {
-                    columns.Add(firstColumn[i] + "   " + secondColumn[i]);
+                    columns.Add(firstColumn[i] + Margin(10, width) + secondColumn[i]);
                 }
             }
             else if (firstColumn.Count < secondColumn.Count)
@@ -24,11 +24,11 @@ namespace WpfApplication1
                 int length = firstColumn[0].Length;
                 for (i = 0; i < firstColumn.Count - 1; i++)
                 {
-                    columns.Add(firstColumn[i] + "   " + secondColumn[i]);
+                    columns.Add(firstColumn[i] + Margin(10, width) + secondColumn[i]);
                 }
                 for (int j = i; j < secondColumn.Count; j++)
                 {
-                    columns.Add("    " + EndSpace(" ", secondColumn[j].Length/2) + "   " + secondColumn[j]);
+                    columns.Add(Margin(7, width) + EndSpace(Margin(width, width), firstColumn[i - 1].Length / 1.24) + Margin(10, width) + secondColumn[j]);
                 }
             }
             else
@@ -37,7 +37,7 @@ namespace WpfApplication1
                 int length = secondColumn[0].Length;
                 for (i = 0; i < secondColumn.Count; i++)
                 {
-                    columns.Add(firstColumn[i] + "   " + secondColumn[i]);
+                    columns.Add(firstColumn[i] + Margin(10, width) + secondColumn[i]);
                 }
                 for (int j = i; j < firstColumn.Count; j++)
                 {
@@ -57,7 +57,7 @@ namespace WpfApplication1
             return spaces;
         }
 
-        public static string EndSpace(string strIn, int width)
+        public static string EndSpace(string strIn, double width)
         {
             int i = strIn.Length - 1;
             string strOut;
@@ -94,7 +94,10 @@ namespace WpfApplication1
 
         public static string Margin(int delta, int width)//TODO
         {
-            // возможно понадобиться делать if(width > 50){ delta *= 2}
+            if(width > 50 && delta < 50)
+            {
+                delta *= 2;
+            }
             string space = "";
             for (int i = 0; i < width/delta; i++)
             {

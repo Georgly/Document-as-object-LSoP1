@@ -29,6 +29,10 @@ namespace WpfApplication1
                 if (CheckEnter())
                 {
                     file = new StreamWriter("Text.txt", false);
+                    //if (width < 22)
+                    //{
+                    //    width = 22;
+                    //}
                     List<string> result = Show(width);
                     for (int i = 0; i < result.Count; i++)
                     {
@@ -161,16 +165,17 @@ namespace WpfApplication1
                         textFragment = _formatDocument[i].Show(width - 7);
                         for (int j = 0; j < textFragment.Count; j++)
                         {
-                            formatText.Add("    " + textFragment[j]);
+                            formatText.Add(FormattingText.Margin(7, width) + textFragment[j]);
                         }
                     }
                     else
                     {
-                        textFragment = FormattingText.Show(_formatDocument[i].Show(width/2 - 5), _formatDocument[i + 1].Show(width/2 - 5));
+                        textFragment = FormattingText.Show(_formatDocument[i].Show(width/*/2 - 5*/ - FormattingText.Margin(7, width).Length), _formatDocument[i + 1].Show(width/*/2 - 5*/ - FormattingText.Margin(10, width).Length), width);
                         for (int j = 0; j < textFragment.Count; j++)
                         {
-                            formatText.Add("    " + textFragment[j]);
+                            formatText.Add(FormattingText.Margin(7, width) + textFragment[j]);
                         }
+                        i++;
                     }
                 }
                 else

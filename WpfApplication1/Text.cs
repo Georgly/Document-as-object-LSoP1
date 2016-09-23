@@ -56,7 +56,7 @@ namespace WpfApplication1
                     {
                         strOut = Hyphenation.MakeHyphenation(strOut);
                         _formatText.Add(FormattingText.EndSpace(strOut, width));
-                        i -= count - (strOut.Length - 2);
+                        i -= count - strOut.Length + 2;
                     }
                 }
                 i++;
