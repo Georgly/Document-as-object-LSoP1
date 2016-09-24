@@ -29,10 +29,10 @@ namespace WpfApplication1
                 if (CheckEnter())
                 {
                     file = new StreamWriter("Text.txt", false);
-                    //if (width < 22)
-                    //{
-                    //    width = 22;
-                    //}
+                    if (width < 20)
+                    {
+                        width = 20;
+                    }
                     List<string> result = Show(width);
                     for (int i = 0; i < result.Count; i++)
                     {
